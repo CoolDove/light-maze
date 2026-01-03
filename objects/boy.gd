@@ -17,20 +17,25 @@ func on_process(delta: float):
 			direction.y += 1
 		if Input.is_action_pressed("left"):
 			direction.x -= 1
-			#set_facing_direction(FacingDirection.Left)
 		if Input.is_action_pressed("right"):
 			direction.x += 1
-			#set_facing_direction(FacingDirection.Right)
 
-	if direction != Vector2i.ZERO:
+	var move = direction != Vector2i.ZERO
+	if move:
 		input_interval = 0.2
 
 	if input_interval > 0:
 		input_interval -= delta
 		if input_interval <= 0:
 			input_interval = 0
+	if !move:
+		return
 
+	var world = GWorld.instance
 	if direction != Vector2i.ZERO:
 		var target = tile_position + direction
-		tile_position = target
-		tile_offset = -(direction as Vector2) * GWorld.instance.tile_size.x
+		if world.is_tile_walkable(target):
+			tile_position = target
+			tile_offset = -(direction as Vector2) * world.tile_size.x
+		else:
+			tile_offset = (direction as Vector2) * world.tile_size.x * 0.5

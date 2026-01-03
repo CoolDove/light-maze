@@ -7,7 +7,6 @@ static var instance : GWorld
 # The main tilemap.
 @export var tilemap: TileMapLayer
 
-# Executed when enter the room
 var sub_tilemaps : Array[TileMapLayer]
 
 @export_tool_button("Toggle World Debug Hud", "GridToggle")
@@ -59,6 +58,9 @@ func is_tile_walkable(tpos: Vector2i) -> bool:
 	for map in sub_tilemaps:
 		var is_walkable = is_tile_walkable_in_tilemap(map, tpos)
 		if !is_walkable:
+			return false
+	for obj in objects:
+		if obj.tile_position == tpos:
 			return false
 	return true
 
