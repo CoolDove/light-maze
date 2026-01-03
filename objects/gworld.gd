@@ -50,7 +50,7 @@ func _process(delta):
 func add_gobject(obj: GObject):
 	objects.append(obj);
 
-func is_tile_walkable(tpos: Vector2i) -> bool:
+func is_tile_walkable(tpos: Vector2i, objs_doesnt_matter:= false) -> bool:
 	if tilemap == null:
 		return false
 	if !is_tile_walkable_in_tilemap(tilemap, tpos):
@@ -59,10 +59,15 @@ func is_tile_walkable(tpos: Vector2i) -> bool:
 		var is_walkable = is_tile_walkable_in_tilemap(map, tpos)
 		if !is_walkable:
 			return false
+	if !objs_doesnt_matter and get_1st_object_on_tile(tpos) != null:
+		return false
+	return true
+
+func get_1st_object_on_tile(tpos: Vector2i) -> GObject:
 	for obj in objects:
 		if obj.tile_position == tpos:
-			return false
-	return true
+			return obj
+	return null
 
 func is_tile_walkable_in_tilemap(layer: TileMapLayer, tpos: Vector2i) -> bool:
 	if layer == null:

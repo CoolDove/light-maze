@@ -34,8 +34,18 @@ func on_process(delta: float):
 	var world = GWorld.instance
 	if direction != Vector2i.ZERO:
 		var target = tile_position + direction
-		if world.is_tile_walkable(target):
-			tile_position = target
-			tile_offset = -(direction as Vector2) * world.tile_size.x
+		var obj = world.get_1st_object_on_tile(target)
+		if obj != null:
+			if world.is_tile_walkable(obj.tile_position + direction):
+				obj.tile_position += direction
+				obj.tile_offset = -(direction as Vector2) * world.tile_size.x
+				tile_position = target
+				tile_offset = -(direction as Vector2) * world.tile_size.x
+			else:
+				tile_offset = (direction as Vector2) * world.tile_size.x * 0.5
 		else:
-			tile_offset = (direction as Vector2) * world.tile_size.x * 0.5
+			if world.is_tile_walkable(target):
+				tile_position = target
+				tile_offset = -(direction as Vector2) * world.tile_size.x
+			else:
+				tile_offset = (direction as Vector2) * world.tile_size.x * 0.5
