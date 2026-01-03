@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuc0pl2w7evya"]
+
+[ext_resource type="Texture2D" uid="uid://kcbpa6rxlnhi" path="res://resources/atlas/atlas_boy.tres" id="1_aqay2"]
+
+[node name="Boy" type="Sprite2D"]
+texture = ExtResource("1_aqay2")
+offset = Vector2(0, -6)
