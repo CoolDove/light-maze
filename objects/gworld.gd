@@ -57,7 +57,7 @@ func _process(delta):
 func add_gobject(obj: GObject):
 	objects.append(obj);
 
-func is_tile_walkable(tpos: Vector2i, objs_doesnt_matter:= false) -> bool:
+func is_tile_walkable(tpos: Vector2i, objs_doesnt_matter:= false, light_doesnt_matter:= false) -> bool:
 	if tilemap == null:
 		return false
 	if !is_tile_walkable_in_tilemap(tilemap, tpos):
@@ -67,6 +67,8 @@ func is_tile_walkable(tpos: Vector2i, objs_doesnt_matter:= false) -> bool:
 		if !is_walkable:
 			return false
 	if !objs_doesnt_matter and get_1st_object_on_tile(tpos) != null:
+		return false
+	if !light_doesnt_matter and !light_tiles.has(tpos):
 		return false
 	return true
 
@@ -112,7 +114,7 @@ func update_light_tiles():
 	for obj in objects:
 		if obj is LampGodess:
 			var check = func(tpos):
-				if is_tile_walkable(tpos, true) and !light_tiles.has(tpos):
+				if is_tile_walkable(tpos, true, true) and !light_tiles.has(tpos):
 					light_tiles.append(tpos)
 			check.call(obj.tile_position)
 			check.call(obj.tile_position+Vector2i(0,1))

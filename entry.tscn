@@ -23,6 +23,7 @@ y_sort_enabled = true
 texture_filter = 1
 script = ExtResource("1_40af7")
 tilemap = NodePath("TileMapLayer")
+metadata/_edit_horizontal_guides_ = [-73.0]
 
 [node name="DarkFog" type="Node" parent="."]
 script = ExtResource("2_j6l6r")
@@ -35,8 +36,9 @@ tile_set = ExtResource("1_rixl5")
 tile_set = ExtResource("1_rixl5")
 
 [node name="Boy" parent="." instance=ExtResource("2_jnwwp")]
-position = Vector2(152, 72)
+position = Vector2(104, 56)
 script = ExtResource("3_2bro8")
+metadata/_edit_group_ = true
 
 [node name="Godess" parent="." instance=ExtResource("5_w3etm")]
 position = Vector2(88, 72)
