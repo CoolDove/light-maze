@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://ciw2aonvpvfy8"]
+[gd_scene load_steps=7 format=4 uid="uid://ciw2aonvpvfy8"]
 
 [ext_resource type="Script" uid="uid://dmbh3neu114n1" path="res://objects/gworld.gd" id="1_40af7"]
 [ext_resource type="TileSet" uid="uid://b5b2q0wp68csk" path="res://resources/tileset_main.tres" id="1_rixl5"]
@@ -6,17 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cuc0pl2w7evya" path="res://objects/boy.tscn" id="2_jnwwp"]
 [ext_resource type="Script" uid="uid://chnpp1f4fsi18" path="res://objects/boy.gd" id="3_2bro8"]
 [ext_resource type="PackedScene" uid="uid://di7jg8jvbhbxr" path="res://objects/lamp_godess.tscn" id="5_w3etm"]
-[ext_resource type="Material" uid="uid://fdtajwxsufcf" path="res://resources/materials/dark_fog.material" id="7_bq4hl"]
-
-[sub_resource type="Gradient" id="Gradient_j6l6r"]
-offsets = PackedFloat32Array(0, 0.071428575)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bq4hl"]
-gradient = SubResource("Gradient_j6l6r")
-width = 240
-height = 160
-fill_to = Vector2(0.06837607, 0.07692308)
 
 [node name="Entry" type="Node2D" node_paths=PackedStringArray("tilemap")]
 y_sort_enabled = true
@@ -43,9 +32,3 @@ position = Vector2(88, 72)
 
 [node name="Godess2" parent="." instance=ExtResource("5_w3etm")]
 position = Vector2(104, 88)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-material = ExtResource("7_bq4hl")
-texture = SubResource("GradientTexture2D_bq4hl")
-offset = Vector2(120, 80)

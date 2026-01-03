@@ -35,7 +35,6 @@ func _process(delta):
 			else:
 				_lock_wait -= 1
 			if _lock_wait <= 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-				print("lock!")
 				_locked = true
 				_lock_position()
 		_last_position = position

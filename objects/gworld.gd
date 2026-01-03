@@ -4,8 +4,12 @@ class_name GWorld
 
 static var instance : GWorld
 
+signal on_light_tiles_updated
+
 # The main tilemap.
 @export var tilemap: TileMapLayer
+
+var light_tiles : Array[Vector2i]
 
 var sub_tilemaps : Array[TileMapLayer]
 
@@ -37,6 +41,7 @@ func _ready():
 	if Engine.is_editor_hint():
 		ProjectSettings.set_setting(projsetting_hide_debug_hud, false)
 		_register_debug_draw()
+	queue_update_light_tiles()
 
 func _process(delta):
 	if Engine.is_editor_hint():
@@ -46,6 +51,8 @@ func _process(delta):
 		if obj.tile_offset.length() < 0.01:
 			obj.tile_offset = Vector2.ZERO
 		obj.position = tpos2local_pos(obj.tile_position) + obj.tile_offset
+	if _update_light_tiles_queued:
+		call_deferred("update_light_tiles")
 
 func add_gobject(obj: GObject):
 	objects.append(obj);
@@ -93,6 +100,32 @@ func local_pos2tpos(local_pos:Vector2) -> Vector2i:
 	var y = local_pos.y / (tsize.y as float)
 	y = floori(y)
 	return Vector2i(x,y)
+
+# Light Map Stuff
+var _update_light_tiles_queued = false
+func queue_update_light_tiles():
+	_update_light_tiles_queued = true
+
+func update_light_tiles():
+	print("generate light tiles")
+	light_tiles.clear()
+	for obj in objects:
+		if obj is LampGodess:
+			var check = func(tpos):
+				if is_tile_walkable(tpos, true) and !light_tiles.has(tpos):
+					light_tiles.append(tpos)
+			check.call(obj.tile_position)
+			check.call(obj.tile_position+Vector2i(0,1))
+			check.call(obj.tile_position+Vector2i(0,-1))
+			check.call(obj.tile_position+Vector2i(1,0))
+			check.call(obj.tile_position+Vector2i(-1,0))
+			
+			check.call(obj.tile_position+Vector2i(-1,1))
+			check.call(obj.tile_position+Vector2i(-1,-1))
+			check.call(obj.tile_position+Vector2i(1,1))
+			check.call(obj.tile_position+Vector2i(1,-1))
+	on_light_tiles_updated.emit()
+	_update_light_tiles_queued = false
 
 func _register_debug_draw():
 	var script = GDScript.new()
